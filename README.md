@@ -1,6 +1,6 @@
 # 获取中国大陆休假日
 
-因为 http://www.easybots.cn/ 的 API 需要申请授权码，所以决定自己写个
+因为 http://www.easybots.cn/ 的 API 需要申请授权码，所以决定自己写个玩玩
 
 通过爬取 [http://holidays-calendar.net](http://holidays-calendar.net/calendar_zh_cn/china_zh_cn.html) 网址获取公共假日
 
