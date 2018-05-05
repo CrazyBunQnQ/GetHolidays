@@ -1,5 +1,11 @@
 # 获取中国大陆休假日
 
+因为 http://www.easybots.cn/ 的 API 需要申请授权码，所以决定自己写个
+
+通过爬取 [http://holidays-calendar.net](http://holidays-calendar.net/calendar_zh_cn/china_zh_cn.html) 网址获取公共假日
+
+>目前只支持中国大陆的，无聊的话会继续添加香港、台湾、韩国和日本的法定节假日
+
 ## 测试
 
 ```python
