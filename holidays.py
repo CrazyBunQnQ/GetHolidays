@@ -16,7 +16,7 @@ def getHtmlTxt(year=time.strftime("%Y"), lan="zh_cn"):
         return
     url_year = "%s/" % year if time.strftime("%Y") != year else ""
     page_url = "http://holidays-calendar.net/%scalendar_%s/china_%s.html" % (url_year, lan, lan)
-    print(page_url)
+    print("爬取地址: %s" % page_url)
     try:
         response = urllib.request.urlopen(page_url, timeout=10)
         html = response.read()
@@ -30,23 +30,23 @@ def getHtmlTxt(year=time.strftime("%Y"), lan="zh_cn"):
 def getYearHolidays(year=time.strftime("%Y"), lan="zh_cn"):
     data = {}
     html = getHtmlTxt(year, lan)
-    if html is not None:
-        table_list = re.findall(rexTable, html)
-        for tableHtml in table_list:
-            td_list = re.findall(rexTd, tableHtml[0])
-            months = {}
-            month = "%s%s" % (year, tableHtml[1].zfill(2))
-            for tdHtml in td_list:
-                if tdHtml[2] != "&ensp;":
-                    day_type = 1
-                    if "n" == tdHtml[1]:
-                        day_type = 0
-                    if "suntop-hol" == tdHtml[1]:
-                        day_type = 2
-                    day = "%s%s%s" % (year, tableHtml[1].zfill(2), tdHtml[2].zfill(2))
-                    months[day] = day_type
-            data[month] = months
-        # print(data)
+    if html is None:
+        return
+    table_list = re.findall(rexTable, html)
+    for tableHtml in table_list:
+        td_list = re.findall(rexTd, tableHtml[0])
+        months = {}
+        month = "%s%s" % (year, tableHtml[1].zfill(2))
+        for tdHtml in td_list:
+            if tdHtml[2] != "&ensp;":
+                day_type = 1
+                if "n" == tdHtml[1]:
+                    day_type = 0
+                if "suntop-hol" == tdHtml[1]:
+                    day_type = 2
+                day = "%s%s%s" % (year, tableHtml[1].zfill(2), tdHtml[2].zfill(2))
+                months[day] = day_type
+        data[month] = months
     return data
 
 
