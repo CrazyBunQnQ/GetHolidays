@@ -10,6 +10,8 @@ rexTd = r'(<td class="td\-([akrsuntophl\-]{1,10})">((\&ensp;)|(\d{1,6}))</td>)'
 
 logging.basicConfig(
     filename='app.log',
+    format='%(asctime)s - %(module)s - %(levelname)s :  %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S %p',
     level=logging.ERROR
 )
 
