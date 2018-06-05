@@ -1,27 +1,33 @@
 # coding:utf-8
 import urllib.request
 import re
-import sys
 import time
+import logging
 
 language = "zh_cn"
 rexTable = r'(colspan="7">[A-Z]{3} \((\d{1,2}).{100,1600}</table>)'
 rexTd = r'(<td class="td\-([akrsuntophl\-]{1,10})">((\&ensp;)|(\d{1,6}))</td>)'
 
+logging.basicConfig(
+    filename='app.log',
+    level=logging.ERROR
+)
+
 
 def getHtmlTxt(year=time.strftime("%Y"), lan="zh_cn"):
     if int(time.strftime(("%Y"))) - int(year) > 2 or int(time.strftime(("%Y"))) - int(year) < 0:
-        print("只等查 %s、%s 和 %s 年的节假日" % (
+        logging.warning("只等查 %s、%s 和 %s 年的节假日" % (
             time.strftime("%Y"), str(int(time.strftime("%Y")) - 1), str(int(time.strftime("%Y")) - 2)))
         return
     url_year = "%s/" % year if time.strftime("%Y") != year else ""
     page_url = "http://holidays-calendar.net/%scalendar_%s/china_%s.html" % (url_year, lan, lan)
-    print("爬取地址: %s" % page_url)
+    logging.debug("爬取地址: %s" % page_url)
     try:
         response = urllib.request.urlopen(page_url, timeout=10)
         html = response.read()
     except Exception as e:
-        sys.stdout.write('响应超时')
+        logging.error(e)
+        return
     if len(html) > 5000:
         return html.decode('utf-8')
     return
@@ -53,19 +59,14 @@ def getYearHolidays(year=time.strftime("%Y"), lan="zh_cn"):
 def getMonthHolidays(month=time.strftime("%Y%m"), lan="zh_cn"):
     year = month[0:4]
     data = getYearHolidays(year, lan)
+    if len(data) == 0:
+        return
     return data[month]
 
 
 def getDayHoliday(day=time.strftime("%Y%m%d"), lan="zh_cn"):
     month = day[0:6]
     data = getMonthHolidays(month, lan)
+    if data is None:
+        return
     return data[day]
-
-
-print(getYearHolidays("2019"))
-print(getYearHolidays())
-print(getYearHolidays("2017"))
-print(getYearHolidays("2016"))
-print(getYearHolidays("2015"))
-print(getMonthHolidays("201708"))
-print(getDayHoliday("20170501"))
