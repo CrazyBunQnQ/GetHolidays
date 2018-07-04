@@ -5,7 +5,7 @@ import time
 import logging
 
 language = "zh_cn"
-rexTable = r'(colspan="7">[A-Z]{3} \((\d{1,2}).{100,1600}</table>)'
+rexTable = r'(colspan="7">[A-Z]{3,4} \((\d{1,2}).{100,1600}</table>)'
 rexTd = r'(<td class="td\-([akrsuntophl\-]{1,10})">((\&ensp;)|(\d{1,6}))</td>)'
 
 logging.basicConfig(
